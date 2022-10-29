@@ -14,7 +14,7 @@ def createMainStatsImage(totalLikes, totalComments, totalRetweets, username):
     image_editable = ImageDraw.Draw(image)
 
     # Create Title Text
-    title_text = "In 2021, You Received"
+    title_text = "In 2022, You Received"
     text_width, text_height = image_editable.textsize(title_text, font=constants.FONT)
     image_editable.text(((constants.IM_WIDTH - text_width) / 2, 80), title_text, constants.DARK_BLUE, font=constants.FONT)
 

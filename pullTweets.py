@@ -47,7 +47,7 @@ def getPastYearsTweets(userID, username):
 
     headers = CaseInsensitiveDict()
     headers["Authorization"] = constants.BEARER
-    params = {'start_time': '2021-01-01T00:00:00Z', 'end_time': '2021-12-31T23:59:59Z', 'max_results': 100, 'tweet.fields':'public_metrics', 'exclude':'retweets'}
+    params = {'start_time': '2022-01-01T00:00:00Z', 'end_time': '2022-12-31T23:59:59Z', 'max_results': 100, 'tweet.fields':'public_metrics', 'exclude':'retweets'}
 
     fullTweetList = []
     tracker = 0
