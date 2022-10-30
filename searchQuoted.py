@@ -27,6 +27,30 @@ def getAllQuotes():
 
     return fullQuoteList
 
+def getRetweets():
+    url = f"{constants.TWEETS_ENDPOINT}/{constants.TWEET_URL_ID}/retweeted_by"
+    # print(url)
+
+    headers = CaseInsensitiveDict()
+    headers["Authorization"] = constants.BEARER
+    params = {"max_results": 100}
+    fullUserList = []
+    tracker = 0
+
+    while True:
+        print(f"Request Number {tracker}")
+        resp = requests.get(url, headers=headers, params=params)
+        if 'data' in resp.json():
+            fullUserList += resp.json()['data']
+        tracker += 1
+        if 'meta' in resp.json() and 'next_token' in resp.json()['meta']:
+            params['pagination_token'] = resp.json()['meta']['next_token']
+        else:
+            break
+        
+    return fullUserList
+
+
 def getProcessedAndPostedIDs():
     textfile = open(f"{constants.GENERAL_FILE_PATH}/posted.txt", "r")
 
@@ -34,18 +58,7 @@ def getProcessedAndPostedIDs():
     users = [user.strip() for user in users]
     return users
 
-quoteList = getAllQuotes()
-postedIDs = getProcessedAndPostedIDs()
 
-filteredQuoteList = [tweet for tweet in quoteList if tweet['author_id'] not in postedIDs]
-
-print(filteredQuoteList)
-
-# list = ['dhernandeznater', 'fedehn', 'antolmos28']
-
-# runWrappedForUser("NaterCarmen")
-
-# for username in list:
-#     print(f"Running for user {username}")
-#     runWrappedForUser(username)
-
+userList = getRetweets()
+print(userList)
+print(len(userList))

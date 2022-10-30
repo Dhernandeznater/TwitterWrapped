@@ -36,6 +36,38 @@ def createMainStatsImage(totalLikes, totalComments, totalRetweets, username):
     im_output = enhancer.enhance(1.5)
     im_output.save(f"{constants.GENERAL_FILE_PATH}/{username}/{username}_MainStats.jpg")
 
+def moreOrLess(stat, statName):
+    return f"{stat} {'less' if stat < 0 else 'more'} {statName}"
+
+def createYearComparisonImage(userDataPrevious, userDataCurrent, username):
+    image = Image.open("blueTemplate.jpg")
+    image_editable = ImageDraw.Draw(image)
+
+    # Create Title Text
+    title_text = "In 2022, you had"
+    text_width, text_height = image_editable.textsize(title_text, font=constants.FONT)
+    image_editable.text(((constants.IM_WIDTH - text_width) / 2, 80), title_text, constants.DARK_BLUE, font=constants.FONT)
+
+    # Create Body Text
+    tweetDif, likeDif, commentDif, retweetDif = userDataCurrent.compareStats(userDataPrevious)
+    main_text = [moreOrLess(tweetDif, "tweets"), moreOrLess(likeDif, "likes"), moreOrLess(commentDif, "comments"), moreOrLess(retweetDif, "retweets")]
+    for i, line in enumerate(main_text):
+        width, height = image_editable.textsize(line, font=constants.FONT)
+        line_height = 350 + 200 + (i * constants.LINE_SPACE)
+
+        image_editable.text(((constants.IM_WIDTH - width) / 2, line_height), line, constants.LIGHT_BLUE, 
+                            font=constants.FONT, stroke_width=4, stroke_fill=constants.WHITE)
+
+    # Add Watermark
+    image_editable.text((1388, 1948), constants.WATERMARK, constants.LIGHT_BLUE, 
+                        font=constants.WATERMARK_FONT, stroke_width=0, stroke_fill=constants.WHITE)
+
+    # Brighten and Save Image
+    enhancer = ImageEnhance.Brightness(image)
+    im_output = enhancer.enhance(1.5)
+    im_output.save(f"{constants.GENERAL_FILE_PATH}/{username}/{username}_YearOverYear.jpg")
+    
+
 def createAmtLikesImage(amtOver5, amtOver10, amtOver20, username):
     # Declare Constants
     image = Image.open("blueTemplate.jpg")
@@ -50,7 +82,7 @@ def createAmtLikesImage(amtOver5, amtOver10, amtOver20, username):
     image_editable.text(((constants.IM_WIDTH - text_width) / 2, 80), chosen_text, constants.DARK_BLUE, font=constants.FONT)
 
     # Create Body Text
-    body_font = ImageFont.truetype('SF-Pro-Rounded-Heavy.otf', 150)
+    body_font = ImageFont.truetype('SF-Pro-Rounded-Heavy.ttf', 150)
     main_texts = [f"{amtOver5} Tweets >= 5 Likes", f"{amtOver10} Tweets >= 10 Likes", f"{amtOver20} Tweets >= 20 Likes"]
     for i, line in enumerate(main_texts):
         width, height = image_editable.textsize(line, font=body_font)
@@ -80,6 +112,9 @@ def createWordCloud(username):
     for tweet in data:
         year_text += " " + tweet['text']
     year_text = re.sub(r"(http\S+)|(@\S+)|(\S+’\S+)", '', year_text, flags=re.MULTILINE).lower()
+    
+    if year_text == "":
+        year_text = "Tweet more or get off private!"
 
     # Create Wordcloud
     stopwords = set(STOPWORDS)
@@ -88,11 +123,11 @@ def createWordCloud(username):
 
 
 def runWrappedForUser(user):
-    tweetCounter, totalLikes, totalComments, totalRetweets, mostLikedTweet, mostCommentedTweet, mostRetweetedTweet, amtOver5, amtOver10, amtOver20 = getAndCompileTweets(user)
+    userData = getAndCompileTweets(user)
     print("Creating Main Stats Image")
-    createMainStatsImage(totalLikes, totalComments, totalRetweets, user)
+    createMainStatsImage(userData.totalLikes, userData.totalComments, userData.totalRetweets, user)
     print("Create Amount Likes Image")
-    createAmtLikesImage(amtOver5, amtOver10, amtOver20, user)
+    createAmtLikesImage(userData.amtOver5, userData.amtOver10, userData.amtOver20, user)
     print("Creating Word Cloud")
     createWordCloud(user)
 

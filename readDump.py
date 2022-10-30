@@ -4,7 +4,7 @@ import json
 
 
 def compileTweetData(username):
-    with open(f'/Users/dhernandeznater/Desktop/{username}.txt', 'r') as f:
+    with open(f'TweetData/{username}.txt', 'r') as f:
         print('------------------ Twitter Stats ------------------')
         stringData = f.read()
         data = json.loads(stringData)

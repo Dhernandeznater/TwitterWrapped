@@ -23,7 +23,7 @@ def createWordCloud(username):
 
     stopwords = set(STOPWORDS)
     userCloud = WordCloud(width=2048, height=2048, background_color="#025587", stopwords=stopwords, min_font_size=10, color_func=lambda *args, **kwargs: (43,240,255)).generate(year_text)
-    userCloud.to_file(f"/Users/dhernandeznater/Desktop/TweetData/{username}_WordCloud.jpg")
+    userCloud.to_file(f"TweetData/{username}_WordCloud.jpg")
 
 
 # path = f"/Users/dhernandeznater/Desktop/TweetData/dhernandeznater"

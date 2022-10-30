@@ -1,6 +1,7 @@
 import requests
 import constants
 from requests.structures import CaseInsensitiveDict
+from wrappedData import WrappedData
 import json
 import os
 
@@ -31,9 +32,9 @@ def getUsernameFromID(id):
     return f"Something went wrong, status code: {resp.status_code}"
 
 
-def getPastYearsTweets(userID, username):
+def getTweetsInInterval(userID, username, startTime, endTime):
     folder_path = f"{constants.GENERAL_FILE_PATH}/{username}"
-    path = f"{constants.GENERAL_FILE_PATH}/{username}/{username}.txt"
+    path = f"{constants.GENERAL_FILE_PATH}/{username}/{username}_{startTime[:4]}.txt"
 
     # Make folder for individual user and check if there's a cached file
     if not os.path.isdir(folder_path):
@@ -47,7 +48,7 @@ def getPastYearsTweets(userID, username):
 
     headers = CaseInsensitiveDict()
     headers["Authorization"] = constants.BEARER
-    params = {'start_time': '2022-01-01T00:00:00Z', 'end_time': '2022-12-31T23:59:59Z', 'max_results': 100, 'tweet.fields':'public_metrics', 'exclude':'retweets'}
+    params = {'start_time': f'{startTime}', 'end_time': f'{endTime}', 'max_results': 100, 'tweet.fields':'public_metrics', 'exclude':'retweets'}
 
     fullTweetList = []
     tracker = 0
@@ -55,9 +56,10 @@ def getPastYearsTweets(userID, username):
     while True:
         print(f"Request Number {tracker}...")
         resp = requests.get(url, headers=headers, params=params)
-        fullTweetList += resp.json()['data']
+        if ('data' in resp.json()) :
+            fullTweetList += resp.json()['data']
         tracker += 1
-        if 'next_token' in resp.json()['meta']:
+        if 'meta' in resp.json() and 'next_token' in resp.json()['meta']:
             params['pagination_token'] = resp.json()['meta']['next_token']
         else:
             break
@@ -66,8 +68,8 @@ def getPastYearsTweets(userID, username):
         json.dump(fullTweetList, f)
 
 
-def compileTweetData(username):
-    with open(f'{constants.GENERAL_FILE_PATH}/{username}/{username}.txt', 'r') as f:
+def compileTweetData(username, startTime):
+    with open(f'{constants.GENERAL_FILE_PATH}/{username}/{username}_{startTime[:4]}.txt', 'r') as f:
         print('------------------ Twitter Stats ------------------')
         stringData = f.read()
         data = json.loads(stringData)
@@ -126,16 +128,20 @@ def compileTweetData(username):
     print(f"You had {amtOver10} Tweets get at least 10 likes")
     print(f"You had {amtOver20} Tweets get at least 20 likes")
 
-    return tweetCounter, totalLikes, totalComments, totalRetweets, mostLikedTweet, mostCommentedTweet, mostRetweetedTweet, amtOver5, amtOver10, amtOver20
+    userData = WrappedData(tweetCounter, totalLikes, totalComments, totalRetweets, mostLikedTweet,
+     mostCommentedTweet, mostRetweetedTweet, amtOver5, amtOver10, amtOver20)
 
-def getAndCompileTweets(username):
+    return userData
+
+def getAndCompileTweets(username, startTime, endTime):
     userID = getIDFromUserName(username)
 
-    if userID.isalpha():
-        print(userID)
-    else:
-        getPastYearsTweets(userID, username)
-        return compileTweetData(username)
+    # TODO: Check this if statement later
+    # if userID.isalpha():
+    #     print(userID)
+    # else:
+    getTweetsInInterval(userID, username, startTime, endTime)
+    return compileTweetData(username, startTime)
 
 
 
