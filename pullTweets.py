@@ -136,10 +136,6 @@ def compileTweetData(username, startTime):
 def getAndCompileTweets(username, startTime, endTime):
     userID = getIDFromUserName(username)
 
-    # TODO: Check this if statement later
-    # if userID.isalpha():
-    #     print(userID)
-    # else:
     getTweetsInInterval(userID, username, startTime, endTime)
     return compileTweetData(username, startTime)
 

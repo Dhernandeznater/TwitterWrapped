@@ -8,6 +8,7 @@ WATERMARK_FONT = ImageFont.truetype('SF-Pro-Rounded-Heavy.ttf', 70)
 WATERMARK = "@dhernandeznater"
 IM_WIDTH = 2048
 LINE_SPACE = (2048 - 350 - 60) / 3
+LINE_SPACE_FOUR = (2048 - 350 - 60) / 4
 CONVO_ID = "1477866762003693571"
 TWEET_URL = "https://twitter.com/dhernandeznater/status/1586439704609710085"
 TWEET_URL_ID = "1586439704609710085"

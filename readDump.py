@@ -1,4 +1,3 @@
-import requests
 from requests.structures import CaseInsensitiveDict
 import json
 

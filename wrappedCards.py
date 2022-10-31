@@ -3,26 +3,29 @@ from pullTweets import getAndCompileTweets
 import constants
 import random
 import json
+import wrappedData
 import re
 import wordcloud
 from wordcloud import WordCloud, STOPWORDS
 
 # Creates the main stats image with total likes comments and retweets
-def createMainStatsImage(totalLikes, totalComments, totalRetweets, username):
+def createMainStatsImage(userData, username):
     # Declare Variables
     image = Image.open("blueTemplate.jpg")
     image_editable = ImageDraw.Draw(image)
 
     # Create Title Text
-    title_text = "In 2022, You Received"
+    title_text = "Your 2022 Main Stats:"
     text_width, text_height = image_editable.textsize(title_text, font=constants.FONT)
     image_editable.text(((constants.IM_WIDTH - text_width) / 2, 80), title_text, constants.DARK_BLUE, font=constants.FONT)
 
     # Create Body Text
-    main_text = [f"{totalLikes} Total Likes", f"{totalRetweets} Retweets", f"{totalComments} Comments"]
+    main_text = [f"{userData.tweetCounter} Total Tweets", f"{userData.totalLikes} Total Likes", 
+        f"{userData.totalRetweets} Retweets", f"{userData.totalComments} Comments"]
+
     for i, line in enumerate(main_text):
         width, height = image_editable.textsize(line, font=constants.FONT)
-        line_height = 350 + 200 + (i * constants.LINE_SPACE)
+        line_height = 450 + (i * constants.LINE_SPACE_FOUR)
 
         image_editable.text(((constants.IM_WIDTH - width) / 2, line_height), line, constants.LIGHT_BLUE, 
                             font=constants.FONT, stroke_width=4, stroke_fill=constants.WHITE)
@@ -53,7 +56,7 @@ def createYearComparisonImage(userDataPrevious, userDataCurrent, username):
     main_text = [moreOrLess(tweetDif, "tweets"), moreOrLess(likeDif, "likes"), moreOrLess(commentDif, "comments"), moreOrLess(retweetDif, "retweets")]
     for i, line in enumerate(main_text):
         width, height = image_editable.textsize(line, font=constants.FONT)
-        line_height = 350 + 200 + (i * constants.LINE_SPACE)
+        line_height = 450 + (i * constants.LINE_SPACE_FOUR)
 
         image_editable.text(((constants.IM_WIDTH - width) / 2, line_height), line, constants.LIGHT_BLUE, 
                             font=constants.FONT, stroke_width=4, stroke_fill=constants.WHITE)
@@ -101,9 +104,9 @@ def createAmtLikesImage(amtOver5, amtOver10, amtOver20, username):
     im_output.save(f"{constants.GENERAL_FILE_PATH}/{username}/{username}_LikeStats.jpg")
     
 
-def createWordCloud(username):
+def createWordCloud(username, year):
     # Read Tweet Data
-    with open(f'{constants.GENERAL_FILE_PATH}/{username}/{username}.txt', 'r') as f:
+    with open(f'{constants.GENERAL_FILE_PATH}/{username}/{username}_{year}.txt', 'r') as f:
             stringData = f.read()
             data = json.loads(stringData)
 
