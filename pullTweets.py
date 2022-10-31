@@ -36,6 +36,10 @@ def getTweetsInInterval(userID, username, startTime, endTime):
     folder_path = f"{constants.GENERAL_FILE_PATH}/{username}"
     path = f"{constants.GENERAL_FILE_PATH}/{username}/{username}_{startTime[:4]}.txt"
 
+    # Check if TweetData folder exists
+    if not os.path.isdir("TweetData"):
+        os.mkdir("TweetData")
+
     # Make folder for individual user and check if there's a cached file
     if not os.path.isdir(folder_path):
         os.mkdir(folder_path)
