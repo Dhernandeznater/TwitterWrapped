@@ -40,7 +40,7 @@ def createMainStatsImage(userData, username):
     im_output.save(f"{constants.GENERAL_FILE_PATH}/{username}/{username}_MainStats.jpg")
 
 def moreOrLess(stat, statName):
-    return f"{stat} {'less' if stat < 0 else 'more'} {statName}"
+    return f"{abs(stat)} {'less' if stat < 0 else 'more'} {statName}"
 
 def createYearComparisonImage(userDataPrevious, userDataCurrent, username):
     image = Image.open("blueTemplate.jpg")

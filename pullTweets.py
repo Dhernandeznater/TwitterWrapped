@@ -14,7 +14,7 @@ def getIDFromUserName(username):
 
     resp = requests.get(url, headers=headers)
 
-    if resp.status_code == 200:
+    if resp.status_code == 200 and 'data' in resp.json() and 'id' in resp.json()['data']:
         return resp.json()['data']['id']
 
     return f"Something went wrong, status code: {resp.status_code}"

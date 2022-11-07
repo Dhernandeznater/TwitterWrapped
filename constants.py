@@ -19,8 +19,9 @@ RECENT_TWEET_SEARCH = "https://api.twitter.com/2/tweets/search/recent"
 TWEETS_ENDPOINT = "https://api.twitter.com/2/tweets"
 TEST_ID="1586437100135747584"
 TWEET_TEXT="here is your twitter wrapped! See all the stats on your twitter activity throughout the year!"
-CUSTOM_TITLES = {"antolmos28": "Thanks for helping test", "dmarrquez1": "Very Pepas of You", "_celxste": "Go Off Celly", "jhernandez9236" : "Tweet More, Jose!!", 
-                    "_soy_moy" : "Tweet More, Moy!!", "estelezama":"Exclusively Bangers!!", "julianuhhhhhhh" : "More than Lin Manuel!", "TitoHernandez_1": "SDSU <<< UIUC"}
+CUSTOM_TITLES = {"antolmos28": "DRILL DRILL DRILL!!!", "dmarrquez1": "\"I barely know her\"", "_celxste": "Slayster Cellay", "jhernandez9236" : "Best Marvel Source!!", 
+                    "_soy_moy" : "Tweet More, Moy!!", "estelezama":"Exclusively Bangers!!", "julianuhhhhhhh" : "(Juliana's Version)", "TitoHernandez_1": "Go Aztecs!!", 
+                    "fedehn": "\"We Reached the Moon\"", "DaxThePrince": "Best Bartender!!", "dansolrod":"Coffee Chain Expert!!", "marquisquis_":"Kezzo Cuzzo"}
 START_DATE_2021 = '2021-01-01T00:00:00Z'
 END_DATE_2021 = '2021-12-31T23:59:59Z'
 START_DATE_2022 = '2022-01-01T00:00:00Z'

@@ -29,7 +29,7 @@ while (True):
         wrappedCards.createYearComparisonImage(userData2021, userData2022, username)
 
         print("Posting Tweets")
-        # postTweets.postWrappedStandalone(username, userId, userData2022.mostLikedTweet, userData2022.mostRetweetedTweet)
+        postTweets.postWrappedStandalone(username, userId, userData2022.mostLikedTweet, userData2022.mostRetweetedTweet)
 
     print("Going to sleep for 5 minutes. If you want to stop the bot do it now.")
     sleep(1800)
