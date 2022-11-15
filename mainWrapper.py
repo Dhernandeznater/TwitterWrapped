@@ -32,4 +32,4 @@ while (True):
         postTweets.postWrappedStandalone(username, userId, userData2022.mostLikedTweet, userData2022.mostRetweetedTweet)
 
     print("Going to sleep for 5 minutes. If you want to stop the bot do it now.")
-    sleep(1800)
+    sleep(360)

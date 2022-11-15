@@ -120,7 +120,7 @@ def createWordCloud(username, year):
         year_text = "Tweet more or get off private!"
 
     # Create Wordcloud
-    stopwords = set(STOPWORDS)
+    stopwords = set(STOPWORDS.union({'gt'}))
     userCloud = WordCloud(width=2048, height=2048, background_color="#025587", stopwords=stopwords, min_font_size=10, color_func=lambda *args, **kwargs: (43,240,255)).generate(year_text)
     userCloud.to_file(f"{constants.GENERAL_FILE_PATH}/{username}/{username}_WordCloud.jpg")
 

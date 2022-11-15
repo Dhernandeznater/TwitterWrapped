@@ -33,6 +33,7 @@ def getUsernameFromID(id):
 
 
 def getTweetsInInterval(userID, username, startTime, endTime):
+    print(f"Gathering tweets for {username}")
     folder_path = f"{constants.GENERAL_FILE_PATH}/{username}"
     path = f"{constants.GENERAL_FILE_PATH}/{username}/{username}_{startTime[:4]}.txt"
 

@@ -2,6 +2,22 @@ from requests.structures import CaseInsensitiveDict
 import json
 
 
+def getTop10Tweets(username):
+    with open(f'TweetData/{username}/{username}_2022.txt', 'r') as f:
+        data = json.loads(f.read())
+
+    top10 = [tweet for tweet in data]
+
+    top10.sort(key=lambda x: x['public_metrics']['like_count'], reverse=True)
+
+    print(top10[:10])
+
+    for i, tweet in enumerate(top10[:10]):
+        print(f"{i}: https://twitter.com/{username}/status/{tweet['id']}")
+        print('\n')
+        
+
+
 def compileTweetData(username):
     with open(f'TweetData/{username}.txt', 'r') as f:
         print('------------------ Twitter Stats ------------------')
@@ -46,3 +62,7 @@ def compileTweetData(username):
     print(f"Most liked tweet: {mostLikedTweet['text']}, {mostLikedCounter} likes")
     print(f"Most commented tweet: {mostCommentedTweet['text']}, {mostCommentedCount} comments")
     print(f"most Retweeted Tweet: {mostRetweetedTweet['text']}, {mostRetweetedCounter} retweets")
+
+
+
+getTop10Tweets("dhernandeznater")
